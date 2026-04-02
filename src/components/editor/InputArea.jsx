@@ -33,7 +33,7 @@ const InputArea = ({
     <div className="flex flex-col gap-2 lg:gap-3">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h2 className="text-sm font-semibold text-foreground">Your Text</h2>
+        <h2 className="text-md font-semibold text-foreground">Your Text</h2>
 
         {/* counters and clear button */}
         <div className="flex items-center gap-1 lg:gap-2">

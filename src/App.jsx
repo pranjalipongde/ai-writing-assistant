@@ -1,7 +1,8 @@
-import { useCallback, useReducer } from "react";
+import { useCallback, useReducer, useState } from "react";
 import { countChars, countWords } from "./utils/textHelpers";
 import useAi from "./hooks/useAi";
 import InputArea from "./components/editor/InputArea";
+import ActionBar from "./components/actions/ActionBar";
 
 //all possible state updates have a name
 const ACTIONS = {
@@ -72,11 +73,17 @@ const reducer = (state, action) => {
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [showCustomPrompt, setShowCustomPrompt] = useState(false);
   const { runAI, loading, error, clearError } = useAi();
 
   //handle input text chnage
   const handleInputChange = useCallback((text) => {
     dispatch({ type: ACTIONS.SET_INPUT, payload: text });
+  }, []);
+
+  //hnadle toggle
+  const handleToggleCustom = useCallback(() => {
+    setShowCustomPrompt((prev) => !prev);
   }, []);
 
   //hnadle action button click
@@ -137,15 +144,9 @@ function App() {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b border-border px-4 lg:px-8 py-4">
-        <div
-          className="max-w-6xl mx-auto flex items-center 
-                        justify-between"
-        >
+        <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div>
-            <h1
-              className="text-lg lg:text-2xl font-bold 
-                           text-foreground"
-            >
+            <h1 className="text-lg lg:text-2xl font-bold text-foreground">
               AI Writing Assistant
             </h1>
             <p className="text-xs lg:text-sm text-muted-foreground">
@@ -158,7 +159,6 @@ function App() {
       {/* Main Layout */}
       <main className="max-w-6xl mx-auto p-4 lg:p-8">
         <div className="flex flex-col lg:flex-row gap-6">
-          {/* Left — Main Content (70%) */}
           <div className="flex flex-col gap-6 w-full lg:w-[70%]">
             <InputArea
               inputText={state.inputText}
@@ -167,7 +167,12 @@ function App() {
               onInputChange={handleInputChange}
               onReset={handleReset}
             />
-            {/* ActionBar goes here next */}
+            <ActionBar
+              activeAction={state.activeAction}
+              onActionSelect={handleActionSelect}
+              showCustomPrompt={showCustomPrompt}
+              onToggleCustom={handleToggleCustom}
+            />{" "}
             {/* OutputArea goes here after */}
           </div>
 
