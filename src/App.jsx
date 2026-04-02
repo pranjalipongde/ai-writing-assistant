@@ -1,6 +1,7 @@
 import { useCallback, useReducer } from "react";
 import { countChars, countWords } from "./utils/textHelpers";
 import useAi from "./hooks/useAi";
+import InputArea from "./components/editor/InputArea";
 
 //all possible state updates have a name
 const ACTIONS = {
@@ -97,7 +98,7 @@ function App() {
   }, [state.outputText]);
 
   //handle reset
-  const handleRest = useCallback(() => {
+  const handleReset = useCallback(() => {
     dispatch({ type: ACTIONS.RESET });
     clearError();
   }, [clearError]);
@@ -133,9 +134,55 @@ function App() {
   }, [state.inputText, state.activeAction, state.customPrompt, runAI]);
 
   return (
-    <div>
-      <h1>AI writing Assistant.</h1>
-      <p>State is ready. Components coming next.</p>
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="border-b border-border px-4 lg:px-8 py-4">
+        <div
+          className="max-w-6xl mx-auto flex items-center 
+                        justify-between"
+        >
+          <div>
+            <h1
+              className="text-lg lg:text-2xl font-bold 
+                           text-foreground"
+            >
+              AI Writing Assistant
+            </h1>
+            <p className="text-xs lg:text-sm text-muted-foreground">
+              Improve, rewrite, and transform your text instantly
+            </p>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Layout */}
+      <main className="max-w-6xl mx-auto p-4 lg:p-8">
+        <div className="flex flex-col lg:flex-row gap-6">
+          {/* Left — Main Content (70%) */}
+          <div className="flex flex-col gap-6 w-full lg:w-[70%]">
+            <InputArea
+              inputText={state.inputText}
+              wordCount={state.wordCount}
+              charCount={state.charCount}
+              onInputChange={handleInputChange}
+              onReset={handleReset}
+            />
+            {/* ActionBar goes here next */}
+            {/* OutputArea goes here after */}
+          </div>
+
+          {/* Right — Sidebar (30%) */}
+          {/* visible on desktop, bottom on mobile */}
+          <div className="w-full lg:w-[30%]">
+            {/* HistorySidebar goes here */}
+            <div className="rounded-lg border border-border p-4">
+              <p className="text-sm text-muted-foreground">
+                History sidebar coming soon...
+              </p>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
   );
 }
