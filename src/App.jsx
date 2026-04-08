@@ -3,6 +3,7 @@ import { countChars, countWords } from "./utils/textHelpers";
 import useAi from "./hooks/useAi";
 import InputArea from "./components/editor/InputArea";
 import ActionBar from "./components/actions/ActionBar";
+import CustomPrompt from "./components/actions/CustomPrompt";
 
 //all possible state updates have a name
 const ACTIONS = {
@@ -172,7 +173,15 @@ function App() {
               onActionSelect={handleActionSelect}
               showCustomPrompt={showCustomPrompt}
               onToggleCustom={handleToggleCustom}
-            />{" "}
+            />
+
+            {/* only show when selected */}
+            {showCustomPrompt && (
+              <CustomPrompt
+                customPrompt={state.customPrompt}
+                onPromptChange={handleCustomPromptChange}
+              />
+            )}
             {/* OutputArea goes here after */}
           </div>
 
