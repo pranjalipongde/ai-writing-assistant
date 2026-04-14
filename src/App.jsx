@@ -4,6 +4,8 @@ import useAi from "./hooks/useAi";
 import InputArea from "./components/editor/InputArea";
 import ActionBar from "./components/actions/ActionBar";
 import CustomPrompt from "./components/actions/CustomPrompt";
+import OutputArea from "./components/editor/OutputArea";
+import { Button } from "./components/ui/button";
 
 //all possible state updates have a name
 const ACTIONS = {
@@ -182,7 +184,23 @@ function App() {
                 onPromptChange={handleCustomPromptChange}
               />
             )}
-            {/* OutputArea goes here after */}
+
+            <Button
+              onClick={handleRun}
+              disabled={
+                loading || !state.inputText.trim() || !state.activeAction
+              }
+            >
+              {loading ? "Running..." : "→ Run"}
+            </Button>
+
+            <OutputArea
+              outputText={state.outputText}
+              loading={loading}
+              error={error}
+              onUseAsInput={hnadleUseAsInput}
+              onClearError={clearError}
+            />
           </div>
 
           {/* Right — Sidebar (30%) */}

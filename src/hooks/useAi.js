@@ -1,46 +1,52 @@
 import { useState } from "react";
 
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${import.meta.env.VITE_GEMINI_API_KEY}`;
-
-const useAi = () => {
+const useAI = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const runAI = async (prompt, userText) => {
-    //dont run if empty
     if (!prompt || !userText.trim()) return null;
 
     setLoading(true);
     setError("");
 
     try {
-      const response = await fetch(GEMINI_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        "https://api.openai.com/v1/chat/completions",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
+          },
+          body: JSON.stringify({
+            model: "gpt-4o-mini",
+            messages: [
+              {
+                role: "user",
+                content: `${prompt}\n\n"${userText}"\n\nReturn only the result. No explanation, no preamble.`,
+              },
+            ],
+            max_tokens: 1000,
+          }),
         },
-        body: JSON.stringify({
-          contents: [
-            {
-              parts: [
-                {
-                  text: `${prompt}\n\n"${userText}"\n\nReturn only the result. No explanation, no preamble.`,
-                },
-              ],
-            },
-          ],
-        }),
-      });
+      );
 
       if (!response.ok) {
-        throw new Error(`API error: ${response.status}`);
+        const errorData = await response.json();
+        if (response.status === 429) {
+          throw new Error("Rate limit reached. Please wait and try again.");
+        }
+        if (response.status === 401) {
+          throw new Error("Invalid API key. Please check your .env file.");
+        }
+        throw new Error(
+          errorData?.error?.message || `API error: ${response.status}`,
+        );
       }
 
       const data = await response.json();
-
-      //safely extract the text
-
-      const result = data?.candidate?.[0]?.content?.parts?.[0]?.text;
+      const result = data?.choices?.[0]?.message?.content;
 
       if (!result) {
         throw new Error("No response received from AI");
@@ -51,19 +57,13 @@ const useAi = () => {
       setError(err.message || "Something went wrong. Please try again.");
       return null;
     } finally {
-      //always runs- success or failure
       setLoading(false);
     }
   };
 
   const clearError = () => setError("");
 
-  return {
-    runAI,
-    loading,
-    error,
-    clearError,
-  };
+  return { runAI, loading, error, clearError };
 };
 
-export default useAi;
+export default useAI;
