@@ -34,8 +34,11 @@ const useAI = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
+
         if (response.status === 429) {
-          throw new Error("Rate limit reached. Please wait and try again.");
+          throw new Error(
+            "Too many requests. Please wait 60 seconds and try again.",
+          );
         }
         if (response.status === 401) {
           throw new Error("Invalid API key. Please check your .env file.");
