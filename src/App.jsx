@@ -236,16 +236,6 @@ function App() {
           <div className="w-full lg:w-[30%]">
             <HistorySidebar history={state.history} onRestore={handleRestore} />
           </div>
-
-          {/* visible on desktop, bottom on mobile */}
-          <div className="w-full lg:w-[30%]">
-            {/* HistorySidebar goes here */}
-            <div className="rounded-lg border border-border p-4">
-              <p className="text-sm text-muted-foreground">
-                History sidebar coming soon...
-              </p>
-            </div>
-          </div>
         </div>
       </main>
     </div>
