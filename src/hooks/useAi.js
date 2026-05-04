@@ -12,15 +12,15 @@ const useAI = () => {
 
     try {
       const response = await fetch(
-        "https://api.openai.com/v1/chat/completions",
+        "https://api.groq.com/openai/v1/chat/completions",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
+            Authorization: `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`,
           },
           body: JSON.stringify({
-            model: "gpt-4o-mini",
+            model: "llama-3.1-8b-instant",
             messages: [
               {
                 role: "user",
@@ -34,11 +34,8 @@ const useAI = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-
         if (response.status === 429) {
-          throw new Error(
-            "Too many requests. Please wait 60 seconds and try again.",
-          );
+          throw new Error("Rate limit reached. Please wait and try again.");
         }
         if (response.status === 401) {
           throw new Error("Invalid API key. Please check your .env file.");
