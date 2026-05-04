@@ -1,4 +1,4 @@
-import { useCallback, useReducer, useState } from "react";
+import { useCallback, useEffect, useReducer, useState } from "react";
 import { countChars, countWords } from "./utils/textHelpers";
 import useAi from "./hooks/useAi";
 import InputArea from "./components/editor/InputArea";
@@ -7,6 +7,7 @@ import CustomPrompt from "./components/actions/CustomPrompt";
 import OutputArea from "./components/editor/OutputArea";
 import { Button } from "./components/ui/button";
 import HistorySidebar from "./components/sidebar/HistorySidebar";
+import { Badge } from "./components/ui/badge";
 
 //all possible state updates have a name
 const ACTIONS = {
@@ -149,17 +150,38 @@ function App() {
     dispatch({ type: ACTIONS.SET_INPUT, payload: item.input });
   }, []);
 
+  // Ctrl+Enter to run
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+        handleRun();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [handleRun]);
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b border-border px-4 lg:px-8 py-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div>
-            <h1 className="text-lg lg:text-2xl font-bold text-foreground">
-              AI Writing Assistant
-            </h1>
+            <div className="flex items-center gap-2 mb-1">
+              <h1 className="text-lg lg:text-2xl font-bold text-foreground">
+                AI Writing Assistant
+              </h1>
+              <Badge variant="secondary" className="text-xs">
+                Beta
+              </Badge>
+            </div>
             <p className="text-xs lg:text-sm text-muted-foreground">
-              Improve, rewrite, and transform your text instantly
+              Improve, rewrite and transform your text instantly
+            </p>
+          </div>
+          <div className="text-right hidden sm:block">
+            <p className="text-xs text-muted-foreground">
+              Powered by Groq + LLaMA 3.1
             </p>
           </div>
         </div>
@@ -196,8 +218,9 @@ function App() {
               disabled={
                 loading || !state.inputText.trim() || !state.activeAction
               }
+              className="w-full sm:w-auto"
             >
-              {loading ? "Running..." : "→ Run"}
+              {loading ? "Running..." : "→ Run (Ctrl+Enter)"}
             </Button>
 
             <OutputArea
