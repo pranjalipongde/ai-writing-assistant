@@ -6,6 +6,7 @@ import ActionBar from "./components/actions/ActionBar";
 import CustomPrompt from "./components/actions/CustomPrompt";
 import OutputArea from "./components/editor/OutputArea";
 import { Button } from "./components/ui/button";
+import HistorySidebar from "./components/sidebar/HistorySidebar";
 
 //all possible state updates have a name
 const ACTIONS = {
@@ -143,6 +144,11 @@ function App() {
     }
   }, [state.inputText, state.activeAction, state.customPrompt, runAI]);
 
+  const handleRestore = useCallback((item) => {
+    dispatch({ type: ACTIONS.SET_OUTPUT, payload: item.output });
+    dispatch({ type: ACTIONS.SET_INPUT, payload: item.input });
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -203,7 +209,11 @@ function App() {
             />
           </div>
 
-          {/* Right — Sidebar (30%) */}
+          {/* Right — Sidebar  */}
+          <div className="w-full lg:w-[30%]">
+            <HistorySidebar history={state.history} onRestore={handleRestore} />
+          </div>
+
           {/* visible on desktop, bottom on mobile */}
           <div className="w-full lg:w-[30%]">
             {/* HistorySidebar goes here */}
