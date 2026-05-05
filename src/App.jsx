@@ -102,7 +102,7 @@ function App() {
   }, []);
 
   //handle use output as input
-  const hnadleUseAsInput = useCallback(() => {
+  const handleUseAsInput = useCallback(() => {
     if (!state.outputText) return;
 
     dispatch({ type: ACTIONS.SET_INPUT, payload: state.outputText });
@@ -162,79 +162,102 @@ function App() {
   }, [handleRun]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background grid-background">
       {/* Header */}
-      <header className="border-b border-border px-4 lg:px-8 py-4">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <h1 className="text-lg lg:text-2xl font-bold text-foreground">
-                AI Writing Assistant
-              </h1>
-              <Badge variant="secondary" className="text-xs">
-                Beta
-              </Badge>
+      <header className="border-b border-border backdrop-blur-sm sticky top-0 z-10 bg-background/80">
+        <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-7 h-7 rounded-md bg-primary flex items-center justify-center glow-violet-sm">
+              <span className="text-xs font-bold text-white">AI</span>
             </div>
-            <p className="text-xs lg:text-sm text-muted-foreground">
-              Improve, rewrite and transform your text instantly
-            </p>
+            <div>
+              <h1 className="text-base font-semibold gradient-text">
+                Writing Assistant
+              </h1>
+              <p className="text-xs text-muted-foreground hidden sm:block">
+                Transform your text instantly
+              </p>
+            </div>
           </div>
-          <div className="text-right hidden sm:block">
-            <p className="text-xs text-muted-foreground">
-              Powered by Groq + LLaMA 3.1
-            </p>
+          <div className="flex items-center gap-2">
+            <Badge
+              variant="outline"
+              className="text-xs border-primary/30 text-primary hidden sm:flex"
+            >
+              Powered by Groq
+            </Badge>
+            <Badge variant="outline" className="text-xs">
+              Beta
+            </Badge>
           </div>
         </div>
       </header>
 
-      {/* Main Layout */}
+      {/* Main */}
       <main className="max-w-6xl mx-auto p-4 lg:p-8">
         <div className="flex flex-col lg:flex-row gap-6">
-          <div className="flex flex-col gap-6 w-full lg:w-[70%]">
-            <InputArea
-              inputText={state.inputText}
-              wordCount={state.wordCount}
-              charCount={state.charCount}
-              onInputChange={handleInputChange}
-              onReset={handleReset}
-            />
-            <ActionBar
-              activeAction={state.activeAction}
-              onActionSelect={handleActionSelect}
-              showCustomPrompt={showCustomPrompt}
-              onToggleCustom={handleToggleCustom}
-            />
-
-            {/* only show when selected */}
-            {showCustomPrompt && (
-              <CustomPrompt
-                customPrompt={state.customPrompt}
-                onPromptChange={handleCustomPromptChange}
+          {/* Left — Main Content */}
+          <div className="flex flex-col gap-4 w-full lg:w-[68%]">
+            {/* Input Card */}
+            <div className="card-surface rounded-xl p-4 lg:p-5">
+              <InputArea
+                inputText={state.inputText}
+                wordCount={state.wordCount}
+                charCount={state.charCount}
+                onInputChange={handleInputChange}
+                onReset={handleReset}
               />
-            )}
+            </div>
 
+            {/* Actions Card */}
+            <div className="card-surface rounded-xl p-4 lg:p-5">
+              <ActionBar
+                activeAction={state.activeAction}
+                onActionSelect={handleActionSelect}
+                showCustomPrompt={showCustomPrompt}
+                onToggleCustom={handleToggleCustom}
+              />
+              {showCustomPrompt && (
+                <div className="mt-4">
+                  <CustomPrompt
+                    customPrompt={state.customPrompt}
+                    onPromptChange={handleCustomPromptChange}
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* Run Button */}
             <Button
               onClick={handleRun}
               disabled={
                 loading || !state.inputText.trim() || !state.activeAction
               }
-              className="w-full sm:w-auto"
+              className="w-full h-11 text-sm font-medium bg-primary hover:bg-primary/90 glow-violet transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none"
             >
-              {loading ? "Running..." : "→ Run (Ctrl+Enter)"}
+              {loading ? "Transforming..." : "→ Run  (Ctrl+Enter)"}
             </Button>
 
-            <OutputArea
-              outputText={state.outputText}
-              loading={loading}
-              error={error}
-              onUseAsInput={hnadleUseAsInput}
-              onClearError={clearError}
-            />
+            {/* Output Card */}
+            <div className="card-surface rounded-xl p-4 lg:p-5">
+              <OutputArea
+                outputText={state.outputText}
+                loading={loading}
+                error={error}
+                onUseAsInput={handleUseAsInput}
+                onClearError={clearError}
+              />
+            </div>
           </div>
 
-          {/* Right — Sidebar  */}
-          <div className="w-full lg:w-[30%]">
-            <HistorySidebar history={state.history} onRestore={handleRestore} />
+          {/* Right — Sidebar */}
+          <div className="w-full lg:w-[32%]">
+            <div className="card-surface rounded-xl p-4 lg:sticky lg:top-24">
+              <HistorySidebar
+                history={state.history}
+                onRestore={handleRestore}
+              />
+            </div>
           </div>
         </div>
       </main>

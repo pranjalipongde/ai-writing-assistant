@@ -25,18 +25,19 @@ const OutputArea = ({
     return (
       <div className="flex flex-col gap-3">
         <h2 className="text-sm font-semibold text-foreground">Result</h2>
-        <div className="min-h-45 lg:min-h-55 rounded-lg border border-border p-4 flex flex-col gap-3">
-          {/* Skeleton lines */}
-          {[100, 90, 95, 80, 70].map((width, i) => (
+        <div className="min-h-45 lg:min-h-55 rounded-lg bg-white/3 p-4 flex flex-col gap-3">
+          {[100, 85, 92, 78, 65].map((width, i) => (
             <div
               key={i}
-              className="h-4 rounded bg-muted animate-pulse"
-              style={{ width: `${width}%` }}
+              className="h-3 rounded-full bg-white/5 animate-pulse"
+              style={{
+                width: `${width}%`,
+                animationDelay: `${i * 100}ms`,
+              }}
             />
           ))}
-
           <p className="text-xs text-muted-foreground mt-2 animate-pulse">
-            AI is thinking...
+            AI is transforming your text...
           </p>
         </div>
       </div>
@@ -109,7 +110,7 @@ const OutputArea = ({
       </div>
 
       {/* Output Text */}
-      <div className="min-h-45 lg:min-h-55 rounded-lg border border-border bg-muted/20 p-4 text-sm leading-relaxed text-foreground whitespace-pre-wrap">
+      <div className="min-h-45 lg:min-h-55 rounded-lg bg-white/3 border-l-2 border-primary p-4 text-sm leading-relaxed text-foreground whitespace-pre-wrap fade-in">
         {outputText}
       </div>
 

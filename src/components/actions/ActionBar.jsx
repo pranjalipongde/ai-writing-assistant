@@ -27,25 +27,19 @@ const ActionBar = ({
       <h2 className="text-sm font-semibold text-foreground">Select Action</h2>
 
       {/* Action Buttons Grid */}
-      <div
-        className="grid grid-cols-2 sm:grid-cols-3 
-                      lg:grid-cols-4 gap-2"
-      >
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
         {ACTIONS.map((action) => (
           <Tooltip key={action.id}>
             <TooltipTrigger asChild>
               <Button
-                variant={isActive(action.id) ? "default" : "outline"}
+                variant={isActive(action.id) ? "default" : "ghost"}
                 size="sm"
                 onClick={() => handleClick(action)}
-                className={`
-                  text-xs h-9 transition-all duration-200
-                  ${
-                    isActive(action.id)
-                      ? "ring-2 ring-offset-2 ring-primary"
-                      : "hover:border-primary hover:text-primary"
-                  }
-                `}
+                className={`text-xs h-8 rounded-full px-4 transition-all duration-200 ${
+                  isActive(action.id)
+                    ? "bg-primary text-primary-foreground glow-violet-sm"
+                    : "text-muted-foreground hover:text-foreground hover:bg-white/5"
+                }`}
               >
                 {action.label}
               </Button>
@@ -57,10 +51,7 @@ const ActionBar = ({
         ))}
 
         {/* Separator between predefined and custom */}
-        <div
-          className="col-span-2 sm:col-span-3 
-                        lg:col-span-4"
-        >
+        <div className="col-span-2 sm:col-span-3 lg:col-span-4">
           <Separator />
         </div>
 
@@ -75,8 +66,7 @@ const ActionBar = ({
                 onToggleCustom();
               }}
               className={`
-                text-xs h-9 col-span-2 
-                sm:col-span-1 transition-all duration-200
+                text-xs h-9 col-span-2 sm:col-span-1 transition-all duration-200
                 ${
                   isActive(CUSTOM_ACTION.id)
                     ? "ring-2 ring-offset-2 ring-primary"

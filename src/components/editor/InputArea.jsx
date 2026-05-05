@@ -49,8 +49,7 @@ const InputArea = ({
                 variant="ghost"
                 size="sm"
                 onClick={handleClear}
-                className="text-xs h-7 px-2 text-muted-foreground
-                           hover:text-destructive"
+                className="text-xs h-7 px-2 text-muted-foreground hover:text-destructive"
               >
                 Clear
               </Button>
@@ -65,8 +64,8 @@ const InputArea = ({
         value={inputText}
         onChange={handleChange}
         onPaste={handlePaste}
-        placeholder="Paste or type your text here...Try: paste an email, a prompt, a paragraph — then select an action below to transform it."
-        className="min-h-45 lg:min-h-55 resize-none text-sm leading-relaxed"
+        placeholder="Paste or type your text here..."
+        className="min-h-45 lg:min-h-55 resize-none text-sm leading-relaxed bg-transparent border-white/8 focus:border-primary/50 placeholder:text-muted-foreground/40 transition-colors duration-200"
       />
 
       {/* helper text */}
