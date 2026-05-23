@@ -164,17 +164,31 @@ function App() {
   return (
     <div className="min-h-screen bg-background grid-background">
       {/* Header */}
-      <header className="border-b border-border backdrop-blur-sm sticky top-0 z-10 bg-background/80">
-        <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4 flex items-center justify-between">
+      <header
+        className="border-b border-border 
+                       backdrop-blur-sm sticky top-0 z-10
+                       bg-background/80"
+      >
+        <div
+          className="max-w-6xl mx-auto px-4 lg:px-8 
+                      py-4 flex items-center justify-between"
+        >
           <div className="flex items-center gap-3">
-            <div className="w-7 h-7 rounded-md bg-primary flex items-center justify-center glow-violet-sm">
+            <div
+              className="w-7 h-7 rounded-md bg-primary 
+                          flex items-center justify-center
+                          glow-violet-sm"
+            >
               <span className="text-xs font-bold text-white">AI</span>
             </div>
             <div>
               <h1 className="text-base font-semibold gradient-text">
                 Writing Assistant
               </h1>
-              <p className="text-xs text-muted-foreground hidden sm:block">
+              <p
+                className="text-xs text-muted-foreground 
+                          hidden sm:block"
+              >
                 Transform your text instantly
               </p>
             </div>
@@ -182,7 +196,8 @@ function App() {
           <div className="flex items-center gap-2">
             <Badge
               variant="outline"
-              className="text-xs border-primary/30 text-primary hidden sm:flex"
+              className="text-xs border-primary/30 
+                       text-primary hidden sm:flex"
             >
               Powered by Groq
             </Badge>
@@ -233,7 +248,11 @@ function App() {
               disabled={
                 loading || !state.inputText.trim() || !state.activeAction
               }
-              className="w-full h-11 text-sm font-medium bg-primary hover:bg-primary/90 glow-violet transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none"
+              className="w-full h-11 text-sm font-medium
+                       bg-primary hover:bg-primary/90
+                       glow-violet transition-all duration-200
+                       disabled:opacity-40 disabled:cursor-not-allowed
+                       disabled:shadow-none"
             >
               {loading ? "Transforming..." : "→ Run  (Ctrl+Enter)"}
             </Button>
@@ -252,7 +271,10 @@ function App() {
 
           {/* Right — Sidebar */}
           <div className="w-full lg:w-[32%]">
-            <div className="card-surface rounded-xl p-4 lg:sticky lg:top-24">
+            <div
+              className="card-surface rounded-xl p-4 
+                          lg:sticky lg:top-24"
+            >
               <HistorySidebar
                 history={state.history}
                 onRestore={handleRestore}

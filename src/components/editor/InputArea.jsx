@@ -65,7 +65,14 @@ const InputArea = ({
         onChange={handleChange}
         onPaste={handlePaste}
         placeholder="Paste or type your text here..."
-        className="min-h-45 lg:min-h-55 resize-none text-sm leading-relaxed bg-transparent border-white/8 focus:border-primary/50 placeholder:text-muted-foreground/40 transition-colors duration-200"
+        className="min-h-50 lg:min-h-60 resize-none
+             text-sm leading-relaxed
+             bg-white/3 border-white/8
+             text-foreground
+             placeholder:text-muted-foreground/30
+             focus:border-primary/40 focus:bg-white/4
+             transition-all duration-200
+             rounded-lg"
       />
 
       {/* helper text */}

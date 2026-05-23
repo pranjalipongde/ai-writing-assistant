@@ -22,27 +22,35 @@ const ActionBar = ({
   };
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-4">
       {/* Label */}
-      <h2 className="text-sm font-semibold text-foreground">Select Action</h2>
+      <p className="text-xs font-medium text-muted-foreground uppercase tracking-widest">
+        Select Action
+      </p>
 
-      {/* Action Buttons Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+      {/* Action Buttons */}
+      <div className="flex flex-wrap gap-2">
         {ACTIONS.map((action) => (
           <Tooltip key={action.id}>
             <TooltipTrigger asChild>
-              <Button
-                variant={isActive(action.id) ? "default" : "ghost"}
-                size="sm"
+              <button
                 onClick={() => handleClick(action)}
-                className={`text-xs h-8 rounded-full px-4 transition-all duration-200 ${
+                className={`text-xs px-4 py-2 rounded-full
+                border transition-all duration-200 font-medium
+                ${
                   isActive(action.id)
-                    ? "bg-primary text-primary-foreground glow-violet-sm"
-                    : "text-muted-foreground hover:text-foreground hover:bg-white/5"
-                }`}
+                    ? `bg-primary border-primary 
+                     text-white glow-violet-sm`
+                    : `bg-transparent border-white/10 
+                     text-muted-foreground
+                     hover:border-primary/50 
+                     hover:text-foreground
+                     hover:bg-white/5`
+                }
+              `}
               >
                 {action.label}
-              </Button>
+              </button>
             </TooltipTrigger>
             <TooltipContent side="bottom">
               <p className="text-xs">Shortcut: {action.shortcut}</p>
@@ -50,32 +58,34 @@ const ActionBar = ({
           </Tooltip>
         ))}
 
-        {/* Separator between predefined and custom */}
-        <div className="col-span-2 sm:col-span-3 lg:col-span-4">
-          <Separator />
-        </div>
+        <Separator orientation="vertical" className="h-8 mx-1 bg-white/10" />
 
-        {/* Custom Action Button */}
+        {/* Custom Action */}
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button
-              variant={isActive(CUSTOM_ACTION.id) ? "default" : "outline"}
-              size="sm"
+            <button
               onClick={() => {
                 handleClick(CUSTOM_ACTION);
                 onToggleCustom();
               }}
               className={`
-                text-xs h-9 col-span-2 sm:col-span-1 transition-all duration-200
-                ${
-                  isActive(CUSTOM_ACTION.id)
-                    ? "ring-2 ring-offset-2 ring-primary"
-                    : "hover:border-primary hover:text-primary"
-                }
-              `}
+              text-xs px-4 py-2 rounded-full
+              border transition-all duration-200
+              font-medium
+              ${
+                isActive(CUSTOM_ACTION.id)
+                  ? `bg-primary border-primary 
+                   text-white glow-violet-sm`
+                  : `bg-transparent border-white/10 
+                   text-muted-foreground
+                   hover:border-primary/50 
+                   hover:text-foreground
+                   hover:bg-white/5`
+              }
+            `}
             >
-              ✎ Custom Prompt
-            </Button>
+              ✎ Custom
+            </button>
           </TooltipTrigger>
           <TooltipContent side="bottom">
             <p className="text-xs">Write your own instruction</p>
