@@ -2,7 +2,7 @@
 
 An AI-powered writing tool that transforms your text instantly. Paste any text, select an action, and get a polished result in seconds.
 
-🔗 **Live Demo** → [ai-writing-assistant-lime.vercel.app](https://ai-writing-assistantt.vercel.app)
+🔗 **Live Demo** → [ai-writing-assistant-lime.vercel.app](https://ai-writing-assistantt.vercel.app/))
 
 ![AI Writing Assistant](https://img.shields.io/badge/Status-Live-brightgreen?style=flat-square)
 ![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react)
