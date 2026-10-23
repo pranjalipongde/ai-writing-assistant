@@ -27,7 +27,8 @@ const useAI = () => {
                 content: `${prompt}\n\n"${userText}"\n\nReturn only the result. No explanation, no preamble.`,
               },
             ],
-            max_tokens: 1000,
+            max_tokens: 2000,
+            reasoning_effort: "low",
           }),
         },
       );
